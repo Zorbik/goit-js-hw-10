@@ -15,8 +15,8 @@ const DEBOUNCE_DELAY = 300;
 
 refs.input.addEventListener('input', debounce(searchCountry, DEBOUNCE_DELAY));
 
-function searchCountry() {
-  const search = refs.input.value.trim();
+function searchCountry(search = '') {
+  search = refs.input.value.trim();
   if (!search) {
     return;
   }
@@ -29,15 +29,13 @@ function searchCountry() {
     .catch(console.error);
 }
 
-function createMarkup(array) {
+function createMarkup(array = []) {
   if (array.length > 10) {
     Notify.info(`Too many matches found. Please enter a more specific name.`);
   } else if (array.length >= 2) {
-    const markup = listOfCountries(array);
-    refs.countryList.innerHTML = markup;
+    refs.countryList.innerHTML = listOfCountries(array);
   } else if (array.length === 1) {
-    const markup = country(...array);
-    refs.countryInfo.innerHTML = markup;
+    refs.countryInfo.innerHTML = country(...array);
   } else {
     Notify.failure(`Oops, there is no country with that name`);
   }
